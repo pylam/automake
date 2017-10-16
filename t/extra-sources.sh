@@ -12,7 +12,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Test to make sure EXTRA_..._SOURCES actually works.
 # Bug report from Henrik Frystyk Nielsen.
@@ -21,7 +21,7 @@
 
 echo AC_PROG_CC >> configure.ac
 
-cat > Makefile.am <<'END'
+cat > Makefile.am << 'END'
 bin_PROGRAMS = www
 www_SOURCES = www.c
 EXTRA_www_SOURCES = xtra.c
@@ -31,7 +31,6 @@ END
 $ACLOCAL
 $AUTOMAKE
 
-grep '@am__include@ .*/xtra\.Po' Makefile.in
-grep '^am__depfiles_remade =.*/xtra.Po' Makefile.in
+grep '@am__include@ .*/xtra\.P' Makefile.in
 
 :

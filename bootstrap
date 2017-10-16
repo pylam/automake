@@ -16,7 +16,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Since Automake uses itself in its build process, we can't simply run
 # 'autoreconf -i' which would require Automake to already be
@@ -37,7 +37,6 @@ export AUTOM4TE  # ditto
 
 # Variables to substitute.
 VERSION=`sed -ne '/AC_INIT/s/^[^[]*\[[^[]*\[\([^]]*\)\].*$/\1/p' configure.ac`
-APIVERSION=`sed -n 's/^APIVERSION=//p' configure.ac`
 PACKAGE=automake
 datadir=.
 # This should be automatically updated by the 'update-copyright'
@@ -52,6 +51,10 @@ if test -n "$DJDIR"; then
 else
   BOOTSTRAP_SHELL=/bin/sh
 fi
+
+# Read the rule for calculating APIVERSION and execute it.
+apiver_cmd=`sed -ne 's/\[\[/[/g;s/\]\]/]/g;/^APIVERSION=/p' configure.ac`
+eval "$apiver_cmd"
 
 # Sanity checks.
 if test -z "$VERSION"; then
@@ -100,8 +103,11 @@ dosubst automake-$APIVERSION/Automake/Config.in \
 dosubst m4/amversion.in m4/amversion.m4
 
 # Create temporary replacement for aclocal and automake.
-dosubst bin/aclocal.in bin/aclocal.tmp
-dosubst bin/automake.in bin/automake.tmp
+for p in bin/aclocal bin/automake; do
+  dosubst $p.in $p.tmp
+  $PERL -w bin/gen-perl-protos $p.tmp > $p.tmp2
+  mv -f $p.tmp2 $p.tmp
+done
 
 # Create required makefile snippets.
 $PERL ./gen-testsuite-part > t/testsuite-part.tmp

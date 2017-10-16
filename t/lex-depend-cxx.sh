@@ -12,7 +12,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Test to make sure dependencies work with Lex/C++.
 # Test synthesized from PR automake/6.
@@ -81,11 +81,6 @@ $AUTOCONF
 # Try to enable dependency tracking if possible, even if that means
 # using slow dependency extractors.
 ./configure --enable-dependency-tracking
-
-# For debugging.
-for f in $(find . -name '*.Po'); do
-  cat $f
-done
 
 $MAKE test-deps-exist
 $MAKE

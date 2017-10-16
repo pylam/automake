@@ -12,7 +12,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Expose part of Automake bug#13928: config.status generates broken
 # makefiles if the subdir-objects option is used and a _SOURCES
@@ -38,9 +38,7 @@ END
 mkdir s
 echo 'int main(void) { return 0; }' > s/foo.c
 
-$ACLOCAL
-$AUTOCONF
-$AUTOMAKE -a
+$ACLOCAL && $AUTOCONF && $AUTOMAKE -a || fatal_ "autotools failed"
 
 ./configure
 $MAKE

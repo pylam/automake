@@ -12,7 +12,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # Test for PR automake/224: $(top_srcdir) w.r.t. dependencies.
 #
@@ -56,8 +56,8 @@ cd build
 ../configure
 
 $MAKE
-test -f foo/.deps/main.Po
+test -d foo/.deps
 $MAKE distclean
-test ! -e foo/.deps/main.Po
+test -d foo/.deps && exit 1
 
 :
